@@ -1,0 +1,1 @@
+# VCMP SDK Sample Module
