@@ -9,6 +9,8 @@ PluginInfo* g_Info;
 HSQUIRRELVM sqvm;
 HSQAPI sqapi;
 
+uint8_t OnInternalCommand(uint32_t uCmdType, const char* pszText);
+
 extern "C" EXPORT unsigned int VcmpPluginInit(PluginFuncs* pluginFuncs, PluginCallbacks* pluginCalls, PluginInfo* pluginInfo) {
 	g_Funcs = pluginFuncs;
 	g_Calls = pluginCalls;
@@ -17,6 +19,8 @@ extern "C" EXPORT unsigned int VcmpPluginInit(PluginFuncs* pluginFuncs, PluginCa
 	pluginInfo->pluginVersion = 0x1001;
 	pluginInfo->apiMajorVersion = PLUGIN_API_MAJOR;
 	pluginInfo->apiMinorVersion = PLUGIN_API_MINOR;
+
+	pluginCalls->OnPluginCommand = OnInternalCommand;
 
 	pluginCalls->OnServerInitialise = _OnServerInitialise;
 	pluginCalls->OnServerShutdown = _OnServerShutdown;
@@ -74,5 +78,30 @@ extern "C" EXPORT unsigned int VcmpPluginInit(PluginFuncs* pluginFuncs, PluginCa
 
 	pluginCalls->OnEntityPoolChange = _OnEntityPoolChange;
 	pluginCalls->OnServerPerformanceReport = _OnServerPerformanceReport;
+	return 1;
+}
+
+void OnSquirrelScriptLoad() {
+	size_t size;
+	int32_t sqID = g_Funcs->FindPlugin("SQHost2");
+	const void** sqExports = g_Funcs->GetPluginExports(sqID, &size);
+	if(sqExports != NULL && size > 0) {
+		SquirrelImports* sqFuncs = (SquirrelImports*)(*sqExports);
+		if(sqFuncs) {
+			sqvm = *sqFuncs->GetSquirrelVM();
+			sqapi = *sqFuncs->GetSquirrelAPI();
+		}
+	}
+}
+
+uint8_t OnInternalCommand(uint32_t uCmdType, const char* pszText) {
+	switch(uCmdType) {
+	case 0x7D6E22D8:
+		OnSquirrelScriptLoad();
+		break;
+
+	default:
+		break;
+	}
 	return 1;
 }
