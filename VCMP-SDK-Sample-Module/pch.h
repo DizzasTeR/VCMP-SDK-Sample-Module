@@ -2,6 +2,7 @@
 #define PCH_H
 
 #include <sstream>
+#include <functional>
 
 #include <SQImports.h>
 #include <SQModule.h>
