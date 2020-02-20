@@ -190,6 +190,8 @@ extern "C" EXPORT unsigned int VcmpPluginInit(PluginFuncs* pluginFuncs, PluginCa
 		signal_onServerPerformanceReport(entryCount, descriptions, times);
 	};
 
+	EventHandler _event_handler;
+
 	return 1;
 }
 

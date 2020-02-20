@@ -10,7 +10,7 @@
 #include "events/handlers_Sphere.h"
 #include "events/handlers_Checkpoint.h"
 
-class EventHandler {
+struct EventHandler {
 	EventHandler() {
 		bindEvents_Server();
 		bindEvents_Client();
