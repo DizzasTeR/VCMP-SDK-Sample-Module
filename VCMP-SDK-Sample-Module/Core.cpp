@@ -2,6 +2,8 @@
 #include <Signals.h>
 #include <Utils.h>
 
+#include <events/hooks.h>
+
 PluginFuncs* g_Funcs;
 PluginCallbacks* g_Calls;
 PluginInfo* g_Info;
