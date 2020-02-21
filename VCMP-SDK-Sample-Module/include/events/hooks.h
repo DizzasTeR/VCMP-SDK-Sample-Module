@@ -1,5 +1,6 @@
 #pragma once
 #include "Signals.h"
+#include "Utils.h"
 // Handler files
 #include "events/handlers_Server.h"
 #include "events/handlers_Client.h"
